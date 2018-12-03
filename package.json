@@ -38,8 +38,8 @@
     "lib": "src"
   },
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "git",
+    "url": "https://github.com/andresmiguel/nodejs-aws-s3.git"
   },
   "publishConfig": {}
 }
