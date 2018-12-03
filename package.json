@@ -6,6 +6,7 @@
   "dependencies": {
     "argv": "0.0.2",
     "async": "^1.5.2",
+    "aws-sdk": "^2.368.0",
     "axios": "^0.16.1",
     "file-stream-rotator": "0.0.6",
     "lodash": "^4.3.0",
