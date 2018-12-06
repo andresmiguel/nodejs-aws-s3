@@ -63,8 +63,28 @@ const deleteBucket = (name) => {
     });
 };
 
+const uploadFile = (bucketName, fileName, fileContent) => {
+
+    // Call S3 to retrieve upload file to specified bucket
+    const uploadParams = {Bucket: bucketName, Key: fileName, Body: fileContent};
+    
+    return new Promise((resolve, reject) => {
+        // call S3 to retrieve upload file to specified bucket
+        s3.upload(uploadParams, function(err, data) {
+            if (err) {
+                logger.log("error", "Error: %s", err);
+                reject(err);
+            } else {
+                logger.log("info", "Success: %s", data.Location);
+                resolve(data);
+            }
+        });
+    });
+};
+
 export default {
     listBuckets,
     createBucket,
-    deleteBucket
+    deleteBucket,
+    uploadFile
 };

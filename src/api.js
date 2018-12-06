@@ -13,7 +13,7 @@ const server = restify.createServer({
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.dateParser());
 server.use(restify.queryParser());
-server.use(restify.urlEncodedBodyParser());
+server.use(restify.bodyParser());
 server.use(restify.gzipResponse());
 
 if (process.env.NODE_ENV !== 'test') {
@@ -25,6 +25,24 @@ server.get("/buckets", (req, res, next) => {
     s3.listBuckets()
         .then(data => {
            res.send(data.Buckets);
+        })
+        .catch(err => {
+            res.status(500);
+            res.send(` Error: ${err}`);
+        });
+
+    return next();
+});
+
+server.post(/buckets\/file/, (req, res, next) => {
+
+    const { name, content, bucket } = req.body;    
+
+    logger.log("info", " File for upload to Bucket: %s. Name: %s Content: %s", bucket, name, content);
+
+    s3.uploadFile(bucket, name, content)
+        .then(data => {
+           res.send(data);
         })
         .catch(err => {
             res.status(500);
